@@ -65,7 +65,8 @@ public class InCallActivity extends Activity {
         int flags = WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
                 | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_IGNORE_CHEEK_PRESSES
-                | WindowManager.LayoutParams.FLAG_FULLSCREEN;
+                | WindowManager.LayoutParams.FLAG_FULLSCREEN
+                | WindowManager.LayoutParams.INPUT_FEATURE_DISABLE_USER_ACTIVITY;
 
         getWindow().addFlags(flags);
 
