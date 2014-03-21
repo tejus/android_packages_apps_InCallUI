@@ -176,9 +176,12 @@ public class StatusBarNotifier implements InCallPresenter.InCallStateListener {
      * @see #updateInCallNotification(boolean,InCallState,CallList)
      */
     public void cancelInCall() {
-        Log.d(this, "cancelInCall()...");
-        mNotificationManager.cancel(IN_CALL_NOTIFICATION);
-        mIsShowingNotification = false;
+        if (mIsShowingNotification)
+        {
+            Log.d(this, "cancelInCall()...");
+            mNotificationManager.cancel(IN_CALL_NOTIFICATION);
+            mIsShowingNotification = false;
+        }
     }
 
     /* package */ static void clearInCallNotification(Context backupContext) {
@@ -386,8 +389,9 @@ public class StatusBarNotifier implements InCallPresenter.InCallStateListener {
 
         // any change means we are definitely updating
         boolean retval = (mSavedIcon != icon) || (mSavedContent != content) ||
-                (mCallState != state) || (mSavedLargeIcon != largeIcon) ||
-                contentTitleChanged;
+                (mCallState != state) || contentTitleChanged ||
+                // I'd like to use Bitmap.getGenerationId(), but as with the pointers it changes whilst the content stays the same oO
+                mSavedLargeIcon == null || !mSavedLargeIcon.sameAs(largeIcon);
 
         // A full screen intent means that we have been asked to interrupt an activity,
         // so we definitely want to show it.
